@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+   <link href="/_FILEUP/style.css" rel="stylesheet" />
+   <title>fileup landing</title>
+</head>
+<body>
+   <h1>fileup documentation</h1>
+   <hr />
+   <h3>Variables</h3>
+   <p><var>$INSTALL_ROOT</var>: fileup's install root<br /><var>$FILEUP_USERNAME</var>: a user's name<br /><var>$FILEUP_TOKEN</var>:
+      a user's token<br /><var>$FILEUP_HOST</var>: the root web url
+   </p>
+   <h3>Create a user</h3>
+   <p>Take a look at <code><var>$INSTALL_ROOT</var>/usr/config/users.json</code>. <br />
+   <h4>Example:</h4>
+   <code>{<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;"<var name="FILEUP_USERNAME">$FILEUP_USERNAME</var>": {<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"token": "Leave this blank and visit the user's home directory (<var name="FILEUP_HOST">$FILEUP_HOST</var>/<var name="FILEUP_USERNAME">$FILEUP_USERNAME</var>); the key will be generated on the first page visit."<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+   }</code></p>
+   <h3>Setting root hosts</h3>
+   <p>Users can have their own root hosts if they want (multiple users & multiple domains)<br />Take a look at <code><var>$INSTALL_ROOT</var>/usr/config/users.json</code>.
+      <br />
+   <h4>Example:</h4>
+   <code>{<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;"<var name="FILEUP_USERNAME">$FILEUP_USERNAME</var>": {<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"token": "Leave this blank and visit the user's home directory (<var name="FILEUP_HOST">$FILEUP_HOST</var>/<var name="FILEUP_USERNAME">$FILEUP_USERNAME</var>); the key will be generated on the first page visit."<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"rootOn": [ <br />
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"https://i.theUsersSite.com" <br />
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br />
+   <br />
+   &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+   }</code></p>
+   <h3>Pushing Something</h3>
+   <p>Users can easily push things using curl or a web form.</br><br />
+      <code>curl -F 'username=<var name="FILEUP_USERNAME">$FILEUP_USERNAME</var>' -F 'token=<var name="FILEUP_TOKEN">$FILEUP_TOKEN</var> -F 'file=@filename.ext' <var name="FILEUP_HOST">$FILEUP_HOST</var></code><br
+         /><br /> Alternatively, you can make an alias, and save your key and host as an environment variable. (sh/bash/zsh
+      example)<br /><br />
+      <code>function _fileup() { curl -F "username=<var name="FILEUP_USERNAME">$FILEUP_USERNAME</var>" -F "token=<var name="FILEUP_TOKEN">$FILEUP_TOKEN</var>" -F "file=@$1" <var name="FILEUP_HOST">$FILEUP_HOST</var> }; alias fileup=_fileup</code>
+   </p>
+   <h3>Homepages</h3>
+   <p>Users can easily create homepages by pushing an <code>index.html</code> file. Files with the names <code>index.html</code>,
+      <code>style.css</code>, <code>_404.html</code>, and <code>script.js</code> will always be named properly and non-scrambled.
+   </p>
+   <hr />
+   <footer>
+      <small>Enjoy using fileup! :^) - <a href="https://github.com/justinoboyle">justinoboyle</a>
+   </footer>
+</body>
+</html>
