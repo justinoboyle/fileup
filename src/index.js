@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const getExtension = (filename) => filename.split('.').pop();
 
-app.get('/', (req, res) => userconfig.getUserNameByHostName(req.headers.host || ':', (err, usrn) => {
+app.get('/', (req, res) => userconfig.getUserNameByHostName(req.headers['Host'] || req.headers.host || ':', (err, usrn) => {
     if (err)
         return res.status(404).send("Error :(") && console.log(err);
     if (!usrn)
@@ -41,7 +41,8 @@ app.get('/', (req, res) => userconfig.getUserNameByHostName(req.headers.host || 
     })
 }));
 
-app.post('/', (req, res) => userconfig.getUserNameByHostName(req.headers.host || ':', (err, hostOwner) => {
+app.post('/', (req, res) => userconfig.getUserNameByHostName(req.headers['Host'] || req.headers.host || ':', (err, hostOwner) => {
+    let host = (req.headers['Host'] || req.headers.host || ':');
     if (err)
         return res.status(404).send("Error :(");
     if (!hostOwner)
@@ -76,9 +77,9 @@ app.post('/', (req, res) => userconfig.getUserNameByHostName(req.headers.host ||
             getRawFilePath(usrn, fileName, (_path) => {
                 file.mv(_path, function (err) {
                     if (err) return res.status(404).send("something went wrong");
-                    let path = req.headers.host + '/' + usrn + '/' + fileName;
+                    let path = host + '/' + usrn + '/' + fileName;
                     if (usrn == hostOwner)
-                        path = req.headers.host + '/' + fileName
+                        path = host + '/' + fileName
                     res.send(proto + '//' + path);
                 });
             });
@@ -109,7 +110,7 @@ app.get('/:username/:filename', (req, res) => userconfig.getUserDataByName(req.p
         } catch (e) { }
 }));
 
-app.get('/:filename', (req, res) => userconfig.getUserNameByHostName(req.headers.host || ':', (err, usrn) => {
+app.get('/:filename', (req, res) => userconfig.getUserNameByHostName(req.headers['Host'] || req.headers.host || ':', (err, usrn) => {
     if (err)
         return res.status(404).send("Error :(");
     let page = req.params.filename;
@@ -134,7 +135,7 @@ app.get('/:filename', (req, res) => userconfig.getUserNameByHostName(req.headers
     })
 }));
 
-app.get('*', (req, res) => userconfig.getUserNameByHostName(req.headers.host || ':', (err, usrn) => {
+app.get('*', (req, res) => userconfig.getUserNameByHostName(req.headers['Host'] || req.headers.host || ':', (err, usrn) => {
     if (err)
         return res.status(404).send("Error :(") && console.log(err);
     if (!usrn)
